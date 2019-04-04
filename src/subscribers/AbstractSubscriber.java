@@ -12,7 +12,8 @@ import states.subscriber.StateName;
  * the base Interface for the Subscriber hierarchy
  */
 public abstract class AbstractSubscriber implements IEntity {
-
+	private String name;
+	
 	protected IState state;
 
 	/**
@@ -43,5 +44,9 @@ public abstract class AbstractSubscriber implements IEntity {
 	 * @param channelName type String
 	 */
 	public void unsubscribe(String channelName) {};
+	
+	public String toString(){
+		return name;
+	}
 	
 }
