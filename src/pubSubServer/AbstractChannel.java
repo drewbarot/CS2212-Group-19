@@ -14,6 +14,8 @@ import subscribers.AbstractSubscriber;
  *  the creation of an appropriate factory to select what's to be created and probably 
  *  an enumeration of all available types of channel that can be created by the implemented 
  *  factory method
+ *  
+ *  Testing Changes here!
  */
 // TODO modify comments to hint at creation of ChannelFactory
 public abstract class AbstractChannel {
