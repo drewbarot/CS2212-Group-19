@@ -1,2 +1,2 @@
-# subA3-SRS-dietary
-Don't look here...
+# CS2212 Group Project
+Our implementation of a Publisher-Subscribe System
