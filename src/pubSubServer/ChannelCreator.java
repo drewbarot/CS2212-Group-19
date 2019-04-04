@@ -35,6 +35,7 @@ public class ChannelCreator {
 	 */
 	protected void deleteChannel(String channelName) {
 		cpm.deleteChannel(channelName);
+		;
 	}
 
 }
