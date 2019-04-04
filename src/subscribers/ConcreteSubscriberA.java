@@ -12,7 +12,7 @@ import states.subscriber.StateName;
  * an example concrete subscriber
  */
 class ConcreteSubscriberA extends AbstractSubscriber {
-
+	private String name;
 	
 	protected ConcreteSubscriberA() {
 		state = StateFactory.createState(StateName.defaultState);
@@ -50,6 +50,10 @@ class ConcreteSubscriberA extends AbstractSubscriber {
 	public void unsubscribe(String channelName) {
 		SubscriptionManager.getInstance().subscribe(channelName, this);
 		
+	}
+	
+	public String toString(){
+		return this.getName();
 	}
 	
 	
