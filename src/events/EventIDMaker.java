@@ -7,7 +7,7 @@ package events;
  */
 public class EventIDMaker {
 
-	private static long eventUIDs = 0L;
+	private static long eventUIDs = 1L;
 	
 	/**
 	 * 

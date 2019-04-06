@@ -19,28 +19,19 @@ public class PublisherFactory {
 	 * 
 	 * note we have multiple entries that return instances of the same ConcretePublisher class
 	 * 
-	 * @param publisherType an entry from the {@link PublisherType} enumeration
 	 * @param strategyName an entry from the {@link StrategyName} enumeration
 	 * @return an instance of the specified IPublisher implementation with the specified strategyName attached to it
 	 */
 	public static AbstractPublisher createPublisher(PublisherType publisherType, StrategyName strategyName) {
-		AbstractPublisher ip;
-		switch (publisherType) {
-			case alphaPub : 
-				ip = new ConcretePublisher(StrategyFactory.createStrategy(strategyName));
-				return ip;
-			case betaPub : 
-				ip = new ConcretePublisher(StrategyFactory.createStrategy(strategyName));
-				return ip;
-			case gammaPub : 
-				ip = new ConcretePublisher(StrategyFactory.createStrategy(strategyName));
-				return ip;
-			case deltaPub : 
-				ip = new ConcretePublisher(StrategyFactory.createStrategy(strategyName));
-				return ip;
+		switch(publisherType) {
+			case PublisherTypeA:
+				return new ConcretePublisherA(PublisherIDMaker.getNewPublisherID(), StrategyFactory.createStrategy(strategyName));
+			case PublisherTypeB:
+				return new ConcretePublisherB(PublisherIDMaker.getNewPublisherID(), StrategyFactory.createStrategy(strategyName));
+			case PublisherTypeC:
+				return new ConcretePublisherC(PublisherIDMaker.getNewPublisherID(), StrategyFactory.createStrategy(strategyName));
 			default:
-				ip = new ConcretePublisher(StrategyFactory.createStrategy(strategyName));
-				return ip;
+				return new ConcretePublisherDefault(PublisherIDMaker.getNewPublisherID(), StrategyFactory.createStrategy(strategyName));
 		}
 	}
 	

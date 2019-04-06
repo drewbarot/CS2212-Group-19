@@ -21,6 +21,4 @@ class EventTypeB extends AbstractEvent {
 	protected EventTypeB(long eventID, int eventPublisherId, EventMessage payload) {
 		super(eventID, eventPublisherId, payload);
 	}
-
-
 }

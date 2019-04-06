@@ -15,13 +15,14 @@ import subscribers.AbstractSubscriber;
  */
 class Channel extends AbstractChannel {
 
-	private Set<AbstractSubscriber> subscribers = new HashSet<AbstractSubscriber>();
+	private Set<AbstractSubscriber> subscribers = new HashSet<>();
 	private String channelTopic;
-	private Queue<AbstractEvent> events = new ArrayDeque<AbstractEvent>();
+	private Queue<AbstractEvent> events = new ArrayDeque<>();
 	
 
-	public Channel(String channelTopic) {
+	protected Channel(String channelTopic) {
 		this.channelTopic = channelTopic;
+		System.out.println("Channel " + channelTopic + " created");
 	}
 	
 	
@@ -30,8 +31,8 @@ class Channel extends AbstractChannel {
 	 */
 	protected void publishEvent(AbstractEvent event) {
 		events.add(event);
+		System.out.println("Channel " + channelTopic + " has event " + event.getEventID() + " from publisher " + event.getEventPublisher());
 		notifySubscribers(event);
-
 	}
 
 	
@@ -40,7 +41,7 @@ class Channel extends AbstractChannel {
 	 */
 	protected void subscribe(AbstractSubscriber subscriber) {
 		if (subscribers.add(subscriber)) {
-			System.out.println("Subscriber " + )
+			System.out.println("Subscriber " + subscriber.getSubscriberID() + " subscribes to channel " + channelTopic);
 		}
 	}
 
@@ -49,7 +50,9 @@ class Channel extends AbstractChannel {
 	 * @see pubSubServer.AbstractChannel#unsubscribe(subscribers.ISubscriber)
 	 */
 	protected void unsubscribe(AbstractSubscriber subscriber) {
-		subscribers.remove(subscriber);
+		if (subscribers.remove(subscriber)) {
+			System.out.println("Subscriber " + subscriber.getSubscriberID() + " unsubscribes from " + channelTopic);
+		}
 	}
 
 	
@@ -65,10 +68,13 @@ class Channel extends AbstractChannel {
 	 * @param event the event that's to be disseminated to the subscribers
 	 */
 	private void notifySubscribers(AbstractEvent event) {
-		AbstractEvent currentEvent; 
+		AbstractEvent currentEvent;
 		currentEvent = event;
 		for(AbstractSubscriber subscriber : subscribers) {
-			subscriber.alert(currentEvent, this.channelTopic);
+			//only alert the subscriber if they are not blocked
+			if (!ChannelAccessControl.getInstance().checkIfBlocked(subscriber,channelTopic)) {
+				subscriber.alert(currentEvent);
+			}
 		}
 	}
 

@@ -14,12 +14,18 @@ import publishers.AbstractPublisher;
 public class ChannelEventDispatcher {
 
 	private ChannelPoolManager cpManager;
+	private static ChannelEventDispatcher instance = null;
+
+	private ChannelEventDispatcher() {
+		cpManager = ChannelPoolManager.getInstance();
+	}
 	
 	public static ChannelEventDispatcher getInstance() {
+		if (instance == null) {
+			instance = new ChannelEventDispatcher();
+		}
 		return instance;
 	}
-
-	
 	
 	/**
 	 * @param event event to be published
@@ -32,7 +38,6 @@ public class ChannelEventDispatcher {
 			if(channel == null) {
 				channel = ChannelCreator.getInstance().addChannel(channelName);
 			}
-			
 			channel.publishEvent(event);
 		}
 	}

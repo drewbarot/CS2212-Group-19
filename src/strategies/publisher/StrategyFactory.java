@@ -2,7 +2,7 @@ package strategies.publisher;
 
 /**
  * @author kkontog, ktsiouni, mgrigori
- * creates new {@link IStrategy } objects
+ * creates new {@link AbstractStrategy } objects
  * contributes to the Strategy design pattern
  * implements the FactoryMethod design pattern   
  */
@@ -10,24 +10,19 @@ public class StrategyFactory {
 
 	
 	/**
-	 * creates a new {@link IStrategy} using an entry from the {@link StrategyName} enumeration
+	 * creates a new {@link AbstractStrategy} using an entry from the {@link StrategyName} enumeration
 	 * @param strategyName a value from the {@link StrategyName} enumeration specifying the strategy to be created 
-	 * @return the newly created {@link IStrategy} instance 
+	 * @return the newly created {@link AbstractStrategy} instance
 	 */
-	public static IStrategy createStrategy(StrategyName strategyName) {
-		IStrategy strategy;
+	public static AbstractStrategy createStrategy(StrategyName strategyName) {
 		switch(strategyName) {
-			case AStrategy:
-				strategy = new AStrategy();
-				return strategy;
-			case BStrategy:
-				strategy = new BStrategy();
-				return strategy;
+			case StrategyA:
+				return new StrategyA();
+			case StrategyB:
+				return new StrategyB();
 			default:
-				strategy = new DefaultStrategy();
-				return strategy;
+				return new StrategyDefault();
 		}
 	}
-	
 	
 }

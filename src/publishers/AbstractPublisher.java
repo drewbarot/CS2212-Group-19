@@ -2,7 +2,8 @@ package publishers;
 
 import baseEntities.IEntity;
 import events.AbstractEvent;
-import strategies.publisher.IStrategy;
+import strategies.publisher.AbstractStrategy;
+import strategies.publisher.StrategyFactory;
 
 /**
  * @author kkontog, ktsiouni, mgrigori base Interface implemented by all
@@ -10,29 +11,57 @@ import strategies.publisher.IStrategy;
  */
 public abstract class AbstractPublisher implements IEntity {
 
-	protected IStrategy publishingStrategy = null;
+	protected int publisherID;
+	protected AbstractStrategy publishingStrategy = null;
+
+
 	/**
-	 * all implementations of this Interface MUST contain an instance variable of 
-	 * type {@link IStrategy} which has the methods:
-	 * 1) {@link IStrategy#doPublish(int)}
-	 * 2) {@link IStrategy#doPublish(AbstractEvent, int)}
-	 * which allows for the publishing of an {@link AbstractEvent} object
-	 * 
-	 * @param event an event which is to be published
-	 * 
+	 * @param concreteStrategy attaches a concreteStrategy generated from the {@link StrategyFactory#createStrategy(strategies.publisher.StrategyName)}
+	 * method
 	 */
-	public void publish(AbstractEvent event) {};
+	protected AbstractPublisher(int publisherID, AbstractStrategy concreteStrategy) {
+		this.publisherID = publisherID;
+		System.out.println("Publisher " + publisherID + " created");
+		setPublishingStrategy(concreteStrategy);
+	}
 
 	/**
 	 * all implementations of this Interface MUST contain an instance variable of 
-	 * type {@link IStrategy} which has the methods:
-	 * 1) {@link IStrategy#doPublish(int)}
-	 * 2) {@link IStrategy#doPublish(AbstractEvent, int)}
+	 * type {@link AbstractStrategy} which has the methods:
+	 * 1) {@link AbstractStrategy#doPublish(int)}
+	 * 2) {@link AbstractStrategy#doPublish(AbstractEvent)}
 	 * which allows for the publishing of an {@link AbstractEvent} object
 	 * 
 	 * @param event an event which is to be published
 	 * 
 	 */
-	public void publish() {};
+	public void publish(AbstractEvent event) {
+		publishingStrategy.doPublish(event);
+	}
+
+	/**
+	 * all implementations of this Interface MUST contain an instance variable of
+	 * type {@link AbstractStrategy} which has the methods:
+	 * 1) {@link AbstractStrategy#doPublish(int)}
+	 * 2) {@link AbstractStrategy#doPublish(AbstractEvent)}
+	 * which allows for the publishing of an {@link AbstractEvent} object
+	 *
+	 */
+	public void publish() {
+		publishingStrategy.doPublish(publisherID);
+	}
+
+	/**
+	 * return the publisher ID
+	 * @return
+	 */
+	public int getPublisherID() {
+		return publisherID;
+	}
+
+	public void setPublishingStrategy(AbstractStrategy publishingStrategy) {
+		this.publishingStrategy = publishingStrategy;
+		System.out.println("Publisher " + publisherID + " has strategy " + publishingStrategy.name());
+	}
 
 }

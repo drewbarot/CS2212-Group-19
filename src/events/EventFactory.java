@@ -9,7 +9,6 @@ import publishers.AbstractPublisher;
  */
 public class EventFactory {
 
-	
 	/**
 	 * This is an implementation of the Factory Method design pattern
 	 * Creates an instance of any of the subclasses derived from the top level class AbstractEvent
@@ -19,9 +18,16 @@ public class EventFactory {
 	 * @param payload an object of type {@link EventMessage}
 	 * @return
 	 */
-	public static AbstractEvent createEvent(EventType eventType, int eventPublisherId, EventMessage payload) {
 
-		return null;
+	public static AbstractEvent createEvent(EventType eventType, int eventPublisherId, EventMessage payload) {
+		switch (eventType) {
+			case TypeA:
+				return new EventTypeA(EventIDMaker.getNewEventID(), eventPublisherId, payload);
+			case TypeB:
+				return new EventTypeB(EventIDMaker.getNewEventID(), eventPublisherId, payload);
+			default:
+				return new EventTypeDefault(EventIDMaker.getNewEventID(), eventPublisherId, payload);
+		}
 	}
 	
 }

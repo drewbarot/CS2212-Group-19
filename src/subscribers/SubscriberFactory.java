@@ -17,18 +17,23 @@ public class SubscriberFactory {
 
 	
 	/**
-	 * creates a new {@link AbstractSubscriber} using an entry from the {@link SubscriberType} enumeration
-	 * @param subscriberType a value from the {@link SubscriberType} enumeration specifying the type of Subscriber to be created 
-	 * @return the newly created {@link AbstractSubscriber} instance 
+	 * creates a new {@link AbstractSubscriber}
+	 * @return the newly created {@link AbstractSubscriber} instance
 	 */
 	public static AbstractSubscriber createSubscriber(SubscriberType subscriberType, StateName stateName) {
-		AbstractSubscriber CSA = null;
+
+		AbstractSubscriber concreteSubscriber;
 		switch (subscriberType) {
-			case alpha : 
-				return CSA;
+			case SubscriberTypeA:
+				concreteSubscriber = new ConcreteSubscriberA(SubscriberIDMaker.getNewSubscriberID());
+				break;
+			case SubscriberTypeB:
+				concreteSubscriber = new ConcreteSubscriberB(SubscriberIDMaker.getNewSubscriberID());
+				break;
 			default:
-				return CSA;
+				concreteSubscriber = new ConcreteSubscriberDefault(SubscriberIDMaker.getNewSubscriberID());
 		}
+		concreteSubscriber.setState(stateName);
+		return concreteSubscriber;
 	}
-	
 }

@@ -11,14 +11,18 @@ import subscribers.AbstractSubscriber;
  * Allows for the discovery of available channels for subscription from {@link AbstractSubscriber} that want to subscribe to them
  */
 public class ChannelDiscovery {
-	
-	
+
+	private static ChannelDiscovery instance = null;
+
+	private ChannelDiscovery() {}
+
 	public static ChannelDiscovery getInstance() {
+		if (instance == null) { //if the singleton doesn't exist then create it
+			instance = new ChannelDiscovery();
+		}
 		return instance;
 	}
-	
-	
-	
+
 	/**
 	 * 
 	 * @return a list of {@link AbstractChannel} type elements containing all available channels 
@@ -33,7 +37,7 @@ public class ChannelDiscovery {
 	 * @return a {@link AbstractChannel} type object corresponding the the channelName provided as input
 	 */
 	protected AbstractChannel findChannel(String channelName) {
-		return ChannelPoolManager.getInstance().getChannelsMap().get(channelName);
+		return ChannelPoolManager.getInstance().findChannel(channelName);
 	}
 	
 	

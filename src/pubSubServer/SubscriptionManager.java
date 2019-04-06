@@ -12,22 +12,31 @@ import subscribers.AbstractSubscriber;
 public class SubscriptionManager {
 
 	private ChannelPoolManager cpManager;
+	private static SubscriptionManager instance = null;
+
+	private SubscriptionManager() {
+		cpManager = ChannelPoolManager.getInstance();
+	}
 	
 	public static SubscriptionManager getInstance() {
+		if (instance == null) {
+			instance = new SubscriptionManager();
+		}
 		return instance;
 	}
 	
 
 	/**
-	 * Completes the subscription of the provided ISubscriber to the appropriate AbstractChannel specified by the channelName
-	 * @param channelName the name of the AbstractChannel to which the ISubscriber wants to subscribe
-	 * @param subscriber the reference to an ISubscriber object
+	 * 	 * Completes the subscription of the provided ISubscriber to the appropriate AbstractChannel specified by the channelName
+	 * 	 * @param channelName the name of the AbstractChannel to which the ISubscriber wants to subscribe
+	 * 	 * @param subscriber the reference to an ISubscriber object
 	 */
 	public void subscribe(String channelName, AbstractSubscriber subscriber) {
 			
 		AbstractChannel channel = cpManager.findChannel(channelName);
-		channel.subscribe(subscriber);
-		
+		if (channel != null) { //only subscribe if the channel exists
+			channel.subscribe(subscriber);
+		}
 	}
 	
 	/**

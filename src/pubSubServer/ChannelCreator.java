@@ -6,18 +6,22 @@ package pubSubServer;
  * MUST IMPLEMENT the Singleton design pattern
  * this class is responsible for creating and deleting channels
  * it's also the only class that can do so
- 
- edit smth
  */
 public class ChannelCreator {
-	
-	private ChannelPoolManager cpm = null;
-	
-	protected static ChannelCreator getInstance() {
-		return instance;
+
+	private static ChannelCreator instance = null;
+	private ChannelPoolManager cpm;
+
+	private ChannelCreator() {
+		cpm = ChannelPoolManager.getInstance();
 	}
 
-	
+	protected static ChannelCreator getInstance() {
+		if (instance == null) {
+			instance = new ChannelCreator();
+		}
+		return instance;
+	}
 	
 	/**
 	 * creates a new Channel and adds it to the list of Channels so that it can be discovered using the 
@@ -35,7 +39,6 @@ public class ChannelCreator {
 	 */
 	protected void deleteChannel(String channelName) {
 		cpm.deleteChannel(channelName);
-		;
 	}
 
 }

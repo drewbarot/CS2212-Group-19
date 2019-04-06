@@ -14,13 +14,10 @@ import subscribers.AbstractSubscriber;
  *  the creation of an appropriate factory to select what's to be created and probably 
  *  an enumeration of all available types of channel that can be created by the implemented 
  *  factory method
- *  
- *  Testing Changes here!
  */
 // TODO modify comments to hint at creation of ChannelFactory
+	//if we wanted to have multiple types of channels then we could use a ChannelFactory to create channels
 public abstract class AbstractChannel {
-
-	
 	
 	/**
 	 * @param event the event that's to be published

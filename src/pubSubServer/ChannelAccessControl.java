@@ -18,13 +18,18 @@ import subscribers.AbstractSubscriber;
  */
 public class ChannelAccessControl {
 
-	
+	Map<String, List<AbstractSubscriber>> blackList = new HashMap<>();
+	private static ChannelAccessControl instance = null;
+
+	private ChannelAccessControl() {}
+
 	protected static ChannelAccessControl getInstance() {
+		if (instance == null) {
+			instance = new ChannelAccessControl();
+		}
 		return instance;
 	}
-	Map<String, List<AbstractSubscriber>> blackList = new HashMap<>();
-	
-	
+
 	
 	/**
 	 * 
@@ -32,10 +37,12 @@ public class ChannelAccessControl {
 	 * @param subscriber an instance of any implementation of {@link AbstractSubscriber}
 	 * @param channelName a String value representing a valid channel name
 	 */
-	protected void blockSubcriber(AbstractSubscriber subscriber, String channelName) {
-		
-		List<AbstractSubscriber> blockedSubscribers = blackList.getOrDefault(channelName, new ArrayList<AbstractSubscriber>());
-		blockedSubscribers.add(subscriber);
+	protected void blockSubscriber(AbstractSubscriber subscriber, String channelName) {
+		List<AbstractSubscriber> blockedSubscribers = blackList.getOrDefault(channelName, new ArrayList<>());
+		if (!blockedSubscribers.contains(subscriber)) {
+			blockedSubscribers.add(subscriber);
+			System.out.println("Subscriber " + subscriber.getSubscriberID() + " is blocked on channel " + channelName);
+		}
 		blackList.put(channelName, blockedSubscribers);
 	}
 
@@ -47,9 +54,11 @@ public class ChannelAccessControl {
 	protected void unBlockSubscriber(AbstractSubscriber subscriber, String channelName) {
 		
 		List<AbstractSubscriber> blockedSubscribers;
-		if((blockedSubscribers = blackList.get(channelName)) == null)
-			return;
-		blockedSubscribers.remove(subscriber);
+		if((blockedSubscribers = blackList.get(channelName)) != null) {
+			if (blockedSubscribers.remove(subscriber)) {
+				System.out.println("Subscriber " + subscriber.getSubscriberID() + " is un-blocked on channel " + channelName);
+			}
+		}
 	}
 
 	
@@ -60,7 +69,6 @@ public class ChannelAccessControl {
 	 * @return true if blocked false otherwise
 	 */
 	protected boolean checkIfBlocked(AbstractSubscriber subscriber, String channelName) {
-		
 		List<AbstractSubscriber> blockedSubscribers;
 		if((blockedSubscribers = blackList.get(channelName)) == null)
 			return false;
